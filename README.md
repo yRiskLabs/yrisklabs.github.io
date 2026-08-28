@@ -6,7 +6,7 @@ and posts. Built with Astro and deployed as static HTML through GitHub Pages.
 ## Local development
 
 ```sh
-npm install
+npm ci
 npm run dev
 ```
 
@@ -17,15 +17,12 @@ TypeScript, and all content-collection schemas before producing `dist/`.
 
 ## Publish
 
-Push `main` to the GitHub repository, enable **Settings → Pages → GitHub
-Actions**, and the included workflow will build and deploy the site. The custom
-domain is configured as `yrisklabs.com`; the same value must be entered in the
-repository's Pages settings after its DNS records point to GitHub Pages.
+Push `main` and the included workflow builds and deploys the site. GitHub Pages
+uses Actions, serves `yrisklabs.com`, and enforces HTTPS.
 
 ## Content
 
-- Add approved reports to `src/content/reports/` using
-  [`docs/publishing-reports.md`](docs/publishing-reports.md).
+- Copy `src/content/reports/_template.md` when adding an approved report.
 - Add posts to `src/content/posts/`.
 
 Asset reports must remain unpublished until human review is complete. Curve
@@ -34,10 +31,9 @@ authority.
 
 ## Architecture
 
-The site intentionally ships no client-side framework and currently requires
-no browser JavaScript. Astro generates plain HTML, CSS, RSS, and sitemaps.
-Structured report front matter is schema-validated, while page layouts and
-shared metadata remain small Astro components.
+The site ships no client-side framework or browser JavaScript. Astro generates
+plain HTML, CSS, RSS, and sitemaps. Report front matter is schema-validated;
+layouts and shared metadata remain small Astro components.
 
 The visual system follows the official SF Mono yRisk direction: black, warm
 paper, and quiet rules. The SF Mono font file is not distributed; visitors use

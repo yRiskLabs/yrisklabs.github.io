@@ -1,6 +1,5 @@
 {
   "name": "yrisklabs.github.io",
-  "version": "0.1.0",
   "private": true,
   "type": "module",
   "packageManager": "npm@11.8.0",
@@ -9,9 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
-    "check": "astro check",
-    "preview": "astro preview"
+    "build": "astro check && astro build"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",
