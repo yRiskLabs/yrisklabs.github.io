@@ -1,0 +1,398 @@
+:root {
+  --paper: #f5f4f0;
+  --ink: #111111;
+  --secondary: #5f5e59;
+  --quiet: #8a8982;
+  --rule: #d5d3cb;
+  --strong-rule: #aaa89f;
+  --accent: #0657f9;
+  --mono: "SF Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+  --width: 72ch;
+  --gutter: clamp(18px, 4vw, 42px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--paper);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.shell {
+  width: min(100%, calc(var(--width) + (var(--gutter) * 2)));
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.skip {
+  position: fixed;
+  z-index: 10;
+  top: 8px;
+  left: 8px;
+  padding: 6px 9px;
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-160%);
+}
+
+.skip:focus {
+  transform: translateY(0);
+}
+
+.header {
+  padding-top: 26px;
+}
+
+.header-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 16px;
+}
+
+.brand {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(12px, 2.5vw, 22px);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.nav-links a {
+  padding: 4px 0 6px;
+  border-bottom: 1px solid transparent;
+  color: var(--secondary);
+  text-decoration: none;
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  border-bottom-color: var(--accent);
+  color: var(--ink);
+}
+
+.rule {
+  height: 1px;
+  background: var(--rule);
+}
+
+main {
+  padding: clamp(34px, 6vw, 56px) 0 72px;
+}
+
+.about {
+  max-width: 64ch;
+}
+
+.about h1 {
+  max-width: 38ch;
+  margin-bottom: 14px;
+  font-size: clamp(20px, 3vw, 25px);
+  letter-spacing: -0.035em;
+}
+
+.lede {
+  max-width: 58ch;
+  color: var(--secondary);
+}
+
+.page-title {
+  margin-bottom: 28px;
+}
+
+.page-title h1 {
+  margin-bottom: 8px;
+  font-size: 24px;
+  letter-spacing: -0.035em;
+}
+
+.page-title p {
+  max-width: 58ch;
+  margin-bottom: 0;
+  color: var(--secondary);
+}
+
+.entry-list {
+  border-top: 1px solid var(--strong-rule);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 15ch minmax(0, 1fr);
+  gap: clamp(22px, 5vw, 44px);
+  padding: 17px 0 18px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.entry-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--quiet);
+  font-size: 10px;
+}
+
+.entry h2 {
+  margin-bottom: 3px;
+  font-size: 13px;
+}
+
+.entry h2 a {
+  text-decoration: none;
+}
+
+.entry p {
+  margin-bottom: 0;
+  color: var(--quiet);
+  font-size: 10px;
+}
+
+.empty {
+  margin: 0;
+  padding: 18px 0;
+  border-top: 1px solid var(--strong-rule);
+  border-bottom: 1px solid var(--rule);
+  color: var(--secondary);
+}
+
+.document {
+  max-width: 68ch;
+}
+
+.document-header {
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--strong-rule);
+}
+
+.kicker {
+  margin-bottom: 14px;
+  color: var(--quiet);
+  font-size: 10px;
+}
+
+.document h1 {
+  max-width: 32ch;
+  margin-bottom: 10px;
+  font-size: clamp(23px, 4vw, 30px);
+  letter-spacing: -0.04em;
+}
+
+.document .lede {
+  margin-bottom: 22px;
+}
+
+.decision {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 4px 7px;
+  border: 1px solid var(--strong-rule);
+  font-size: 10px;
+}
+
+.metadata {
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.metadata div {
+  display: grid;
+  grid-template-columns: 12ch minmax(0, 1fr);
+  gap: 20px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+  overflow-wrap: anywhere;
+}
+
+.metadata dt {
+  color: var(--quiet);
+  font-size: 10px;
+  text-align: left;
+}
+
+.metadata dd {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 10px;
+}
+
+.prose {
+  padding-top: 28px;
+}
+
+.prose h2 {
+  margin: 2.2em 0 0.7em;
+  font-size: 17px;
+  letter-spacing: -0.025em;
+}
+
+.prose h3 {
+  margin: 2em 0 0.7em;
+  font-size: 13px;
+}
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose pre,
+.prose table,
+.prose blockquote {
+  margin-bottom: 1.5em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 2.2ch;
+}
+
+.prose code,
+.prose pre {
+  font-family: var(--mono);
+}
+
+.prose code {
+  padding: 0.08em 0.28em;
+  background: rgb(17 17 17 / 7%);
+  font-size: 0.92em;
+}
+
+.prose pre {
+  overflow-x: auto;
+  padding: 14px;
+  border: 1px solid var(--rule);
+}
+
+.prose pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.prose blockquote {
+  margin-left: 0;
+  padding-left: 16px;
+  border-left: 1px solid var(--strong-rule);
+  color: var(--secondary);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.prose th,
+.prose td {
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-boundary {
+  margin-top: 42px;
+  padding-top: 12px;
+  border-top: 1px solid var(--strong-rule);
+  color: var(--quiet);
+  font-size: 10px;
+}
+
+.not-found h1 {
+  margin-bottom: 6px;
+  font-size: 24px;
+}
+
+.not-found p {
+  color: var(--secondary);
+}
+
+@media (max-width: 560px) {
+  .header-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-links {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .entry,
+  .metadata div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .metadata dt {
+    text-align: left;
+  }
+}
+
+@media print {
+  .nav-links {
+    display: none;
+  }
+
+  .shell {
+    width: 100%;
+  }
+}

@@ -1,0 +1,37 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  kind: string;
+  title: string;
+  description: string;
+  date: Date;
+  metadata: Array<{ label: string; value: string }>;
+  decision?: string;
+}
+
+const { kind, title, description, date, metadata, decision } = Astro.props;
+const published = date.toISOString().slice(0, 10);
+---
+
+<BaseLayout title={title} description={description} type="article" image={null}>
+  <article class="document">
+    <header class="document-header">
+      <p class="kicker">{kind} · <time datetime={date.toISOString()}>{published}</time></p>
+      <h1>{title}</h1>
+      <p class="lede">{description}</p>
+      {decision && <p class="decision">{decision}</p>}
+      <dl class="metadata">
+        {metadata.map((item) => (
+          <div>
+            <dt>{item.label}</dt>
+            <dd>{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

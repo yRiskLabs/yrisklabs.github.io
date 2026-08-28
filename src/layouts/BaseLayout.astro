@@ -1,0 +1,78 @@
+---
+import "../styles/global.css";
+import { navigation, site } from "../data/site";
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: "website" | "article";
+  image?: string | null;
+  canonicalPath?: string;
+}
+
+const {
+  title = site.name,
+  description = site.description,
+  type = "website",
+  image = "/og.png",
+  canonicalPath,
+} = Astro.props;
+
+const pageTitle = title === site.name ? title : `${title} — ${site.name}`;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
+const socialImage = image ? new URL(image, Astro.site) : null;
+const pathname = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f5f4f0" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="alternate" href="/rss.xml" type="application/rss+xml" title="yRisk posts" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <a class="skip" href="#content">skip to content</a>
+    <div class="shell">
+      <header class="header">
+        <div class="header-row">
+          <a class="brand" href="/">yRisk</a>
+          <nav class="nav-links" aria-label="Primary navigation">
+            {
+              navigation.map((item) => {
+                const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+                return (
+                  <a href={item.href} aria-current={active ? "page" : undefined}>
+                    {item.label}
+                  </a>
+                );
+              })
+            }
+            <a href={site.xUrl} rel="me noopener" target="_blank">x ↗</a>
+          </nav>
+        </div>
+        <div class="rule" aria-hidden="true"></div>
+      </header>
+      <main id="content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>

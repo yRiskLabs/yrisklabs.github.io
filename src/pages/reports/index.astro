@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const reports = (await getCollection("reports", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll("-", ".");
+---
+
+<BaseLayout
+  title="Reports"
+  description="Human-reviewed yRisk asset evaluations and market recommendations for Curve."
+>
+  <header class="page-title">
+    <h1>reports</h1>
+    <p>Asset evaluations with explicit decisions and reproducible onchain evidence.</p>
+  </header>
+
+  {
+    reports.length > 0 ? (
+      <div class="entry-list">
+        {reports.map((report) => (
+          <article class="entry">
+            <div class="entry-meta">
+              <time datetime={report.data.publishedAt.toISOString()}>
+                {formatDate(report.data.publishedAt)}
+              </time>
+              <span>{report.data.chain}</span>
+            </div>
+            <div>
+              <h2><a href={`/reports/${report.id}/`}>{report.data.title}</a></h2>
+              <p>{report.data.decision}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p class="empty">No human-approved reports are public yet.</p>
+    )
+  }
+</BaseLayout>

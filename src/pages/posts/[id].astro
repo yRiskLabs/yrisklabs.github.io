@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from "astro:content";
+import DocumentLayout from "../../layouts/DocumentLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const metadata = [{ label: "topics", value: post.data.topics.join(" / ") }];
+---
+
+<DocumentLayout
+  kind="post"
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.publishedAt}
+  metadata={metadata}
+>
+  <Content />
+</DocumentLayout>

@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from "astro:content";
+import DocumentLayout from "../../layouts/DocumentLayout.astro";
+
+export async function getStaticPaths() {
+  const reports = await getCollection("reports", ({ data }) => !data.draft);
+  return reports.map((report) => ({ params: { id: report.id }, props: { report } }));
+}
+
+const { report } = Astro.props;
+const { Content } = await render(report);
+const metadata = [
+  { label: "request", value: report.data.request },
+  { label: "chain", value: report.data.chain },
+  { label: "protocol", value: report.data.protocolVersion },
+  { label: "asset", value: `${report.data.asset.name} (${report.data.asset.symbol})` },
+  { label: "address", value: report.data.asset.address },
+  { label: "decimals", value: report.data.asset.decimals.toString() },
+  { label: "block", value: report.data.observation.block.toString() },
+  { label: "observed", value: report.data.observation.observedAt.toISOString() },
+  { label: "reviewed by", value: report.data.reviewedBy.join(", ") },
+];
+---
+
+<DocumentLayout
+  kind="report"
+  title={report.data.title}
+  description={report.data.description}
+  date={report.data.publishedAt}
+  decision={report.data.decision}
+  metadata={metadata}
+>
+  <Content />
+  <aside class="report-boundary">
+    Human review and governance approval are required. Curve governance and the eDAO retain
+    execution authority.
+  </aside>
+</DocumentLayout>

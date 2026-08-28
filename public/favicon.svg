@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">yRisk favicon</title>
+  <desc id="desc">A lowercase y in white SF Mono type on black.</desc>
+  <rect width="64" height="64" fill="#090909"/>
+  <g fill="#FFFFFF" transform="translate(18.113 40) scale(0.02197265625 -0.02197265625)">
+    <path d="M329 -386C530 -386 621 -307 716 -40L1125 1085H944L641 177H628L324 1085H139L538 -7L519 -66C474 -192 418 -238 316 -238C300 -238 269 -237 256 -234V-383C271 -385 304 -386 329 -386Z"/>
+  </g>
+</svg>
