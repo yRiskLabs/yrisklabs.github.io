@@ -1,5 +1,5 @@
 ---
-title: Decision first. Evidence beneath it.
+title: Welcome
 description: The operating principle behind yRisk's public risk work for Curve.
 publishedAt: 2026-08-28
 topics:
