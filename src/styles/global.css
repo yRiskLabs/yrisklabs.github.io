@@ -207,14 +207,6 @@ main {
   font-size: 10px;
 }
 
-.empty {
-  margin: 0;
-  padding: 18px 0;
-  border-top: 1px solid var(--strong-rule);
-  border-bottom: 1px solid var(--rule);
-  color: var(--secondary);
-}
-
 .document {
   max-width: 68ch;
 }
