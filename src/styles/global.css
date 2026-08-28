@@ -182,22 +182,6 @@ main {
   color: var(--secondary);
 }
 
-.page-title {
-  margin-bottom: 28px;
-}
-
-.page-title h1 {
-  margin-bottom: 8px;
-  font-size: 24px;
-  letter-spacing: -0.035em;
-}
-
-.page-title p {
-  max-width: 58ch;
-  margin-bottom: 0;
-  color: var(--secondary);
-}
-
 .entry-list {
   border-top: 1px solid var(--strong-rule);
 }

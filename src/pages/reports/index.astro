@@ -12,11 +12,6 @@ const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll("-
   title="Reports"
   description="Human-reviewed yRisk asset evaluations and market recommendations for Curve."
 >
-  <header class="page-title">
-    <h1>reports</h1>
-    <p>Asset evaluations with explicit decisions and reproducible onchain evidence.</p>
-  </header>
-
   {reports.length > 0 && (
     <div class="entry-list">
       {reports.map((report) => (
