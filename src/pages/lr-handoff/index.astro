@@ -42,20 +42,23 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
     <title>{initialDocument.title} · LlamaRisk Handoff</title>
     <style>
       :root {
-        --paper: #f5f4f0;
-        --surface: #fbfaf7;
+        --paper: #f3f4f5;
+        --surface: #f8f9fa;
         --white: #ffffff;
-        --ink: #111111;
-        --secondary: #5f5e59;
-        --quiet: #85847e;
-        --rule: #d5d3cb;
-        --strong-rule: #aaa89f;
+        --ink: #151718;
+        --secondary: #596066;
+        --quiet: #6e757a;
+        --rule: #d8dcdf;
+        --strong-rule: #b9bfc4;
         --accent: #0657f9;
-        --sidebar: #151515;
-        --sidebar-ink: #f1f0eb;
-        --sidebar-muted: #8e8d86;
-        --sidebar-rule: #343434;
-        --sidebar-active: #252525;
+        --topbar: #191919;
+        --topbar-ink: #f1f0eb;
+        --topbar-muted: #92918a;
+        --sidebar: #eef0f1;
+        --sidebar-ink: #282b2e;
+        --sidebar-muted: #5f656a;
+        --sidebar-rule: #ced2d5;
+        --sidebar-active: #dde1e4;
         --mono: "SF Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
       }
 
@@ -112,9 +115,9 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         justify-content: space-between;
         gap: 18px;
         padding: 0 18px;
-        border-bottom: 1px solid #2b2b2b;
-        background: var(--sidebar);
-        color: var(--sidebar-ink);
+        border-bottom: 1px solid #30302f;
+        background: var(--topbar);
+        color: var(--topbar-ink);
       }
 
       .identity,
@@ -149,7 +152,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
 
       .eyebrow {
         margin: 0 0 1px;
-        color: var(--sidebar-muted);
+        color: var(--topbar-muted);
         font-size: 9px;
         letter-spacing: 0.12em;
         line-height: 1.2;
@@ -172,7 +175,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
       }
 
       .topbar-note {
-        color: var(--sidebar-muted);
+        color: var(--topbar-muted);
         font-size: 10px;
       }
 
@@ -185,7 +188,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         border: 1px solid #4a4946;
         border-radius: 0;
         background: transparent;
-        color: var(--sidebar-ink);
+        color: var(--topbar-ink);
         cursor: pointer;
       }
 
@@ -228,7 +231,6 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
 
       .search-wrap {
         padding: 14px;
-        border-bottom: 1px solid var(--sidebar-rule);
       }
 
       .search-box {
@@ -248,19 +250,19 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         width: 100%;
         height: 36px;
         padding: 0 10px 0 31px;
-        border: 1px solid #454545;
+        border: 1px solid #c5cacf;
         border-radius: 0;
-        background: #1d1d1d;
-        color: #ffffff;
+        background: #f7f8f9;
+        color: var(--sidebar-ink);
         outline: none;
       }
 
       .search-input::placeholder {
-        color: #77766f;
+        color: #687077;
       }
 
       .search-input:focus {
-        border-color: #7d7c76;
+        border-color: #8d949a;
       }
 
       .search-meta {
@@ -279,7 +281,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         flex: 1;
         padding: 10px 8px 24px;
         overflow-y: auto;
-        scrollbar-color: #4a4a4a transparent;
+        scrollbar-color: #aab0b5 transparent;
         scrollbar-width: thin;
       }
 
@@ -295,7 +297,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
       .section-label {
         margin: 0 0 5px;
         padding: 0 7px;
-        color: #76756f;
+        color: var(--sidebar-muted);
         font-size: 9px;
         font-weight: 600;
         letter-spacing: 0.13em;
@@ -311,7 +313,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         padding: 6px 8px;
         border: 0;
         background: transparent;
-        color: #c3c2bc;
+        color: #4b5156;
         cursor: pointer;
         font-size: 11px;
         line-height: 1.35;
@@ -319,28 +321,28 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
       }
 
       .doc-link:hover {
-        background: #202020;
-        color: #ffffff;
+        background: #e3e6e8;
+        color: var(--sidebar-ink);
       }
 
       .doc-link[aria-current="page"] {
         background: var(--sidebar-active);
-        color: #ffffff;
+        color: #1c1f21;
       }
 
       .doc-link[aria-current="page"] .doc-glyph {
-        color: #83a7ff;
+        color: var(--accent);
       }
 
       .doc-glyph {
-        color: #66655f;
+        color: #90979d;
         line-height: 1.35;
       }
 
       .empty-search {
         margin: 28px 8px 0;
         padding: 18px 12px;
-        border: 1px dashed #4b4a46;
+        border: 1px dashed #aab0b5;
         color: var(--sidebar-muted);
         text-align: center;
       }
@@ -354,7 +356,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         min-width: 0;
         min-height: 0;
         grid-template-rows: 66px minmax(0, 1fr);
-        background: var(--paper);
+        background: var(--white);
       }
 
       .document-bar {
@@ -365,7 +367,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         justify-content: space-between;
         padding: 9px 16px 9px 20px;
         border-bottom: 1px solid var(--rule);
-        background: var(--surface);
+        background: var(--white);
       }
 
       .document-heading {
@@ -418,14 +420,15 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
 
       .document-actions .icon-button,
       .document-actions .text-button {
-        border-color: var(--rule);
+        border-color: transparent;
+        background: #eef0f1;
         color: var(--ink);
       }
 
       .document-actions .icon-button:hover,
       .document-actions .text-button:hover {
-        border-color: var(--strong-rule);
-        background: #ecebe6;
+        border-color: transparent;
+        background: #e3e6e8;
       }
 
       .document-actions button:disabled {
@@ -436,13 +439,14 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
       .reader-stage {
         min-width: 0;
         min-height: 0;
-        padding: 10px;
+        padding: 0;
+        background: var(--white);
       }
 
       .reader-frame {
         width: 100%;
         height: 100%;
-        border: 1px solid var(--rule);
+        border: 0;
         background: var(--white);
       }
 
