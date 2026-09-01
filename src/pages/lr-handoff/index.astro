@@ -1,0 +1,872 @@
+---
+import documents from "../../data/lr-handoff-documents.json";
+
+const sectionOrder = [
+  "Overview",
+  "Transition Memo",
+  "Operational State",
+  "Processes",
+  "Frameworks & Guidelines",
+  "Methods",
+  "Research",
+  "Miscellaneous",
+  "Legal Terms",
+  "General",
+];
+
+const groups = sectionOrder
+  .map((section) => ({
+    section,
+    documents: documents.filter((document) => document.category === section),
+  }))
+  .filter((group) => group.documents.length > 0);
+
+const initialDocument =
+  documents.find((document) => document.title === "Transition Memo") ?? documents[0];
+const initialIndex = documents.findIndex((document) => document.id === initialDocument.id);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Searchable internal reader for the LlamaRisk Curve handoff archive."
+    />
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+    <meta name="theme-color" content="#111111" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{initialDocument.title} · LlamaRisk Handoff</title>
+    <style>
+      :root {
+        --paper: #f5f4f0;
+        --surface: #fbfaf7;
+        --white: #ffffff;
+        --ink: #111111;
+        --secondary: #5f5e59;
+        --quiet: #85847e;
+        --rule: #d5d3cb;
+        --strong-rule: #aaa89f;
+        --accent: #0657f9;
+        --sidebar: #151515;
+        --sidebar-ink: #f1f0eb;
+        --sidebar-muted: #8e8d86;
+        --sidebar-rule: #343434;
+        --sidebar-active: #252525;
+        --mono: "SF Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        min-width: 320px;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--mono);
+        font-size: 12px;
+        line-height: 1.45;
+      }
+
+      button,
+      input {
+        font: inherit;
+      }
+
+      button,
+      a,
+      input {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      button:focus-visible,
+      input:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .app {
+        display: grid;
+        grid-template-rows: 58px minmax(0, 1fr);
+        height: 100dvh;
+      }
+
+      .topbar {
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 0 18px;
+        border-bottom: 1px solid #2b2b2b;
+        background: var(--sidebar);
+        color: var(--sidebar-ink);
+      }
+
+      .identity,
+      .topbar-actions,
+      .document-actions,
+      .crumbs,
+      .reader-meta {
+        display: flex;
+        align-items: center;
+      }
+
+      .identity {
+        min-width: 0;
+        gap: 12px;
+      }
+
+      .mark {
+        display: grid;
+        width: 29px;
+        height: 29px;
+        flex: 0 0 auto;
+        place-items: center;
+        border: 1px solid #55544f;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .identity-copy {
+        min-width: 0;
+      }
+
+      .eyebrow {
+        margin: 0 0 1px;
+        color: var(--sidebar-muted);
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+
+      .identity h1 {
+        margin: 0;
+        overflow: hidden;
+        font-size: 13px;
+        font-weight: 550;
+        line-height: 1.3;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .topbar-actions {
+        flex: 0 0 auto;
+        gap: 8px;
+      }
+
+      .topbar-note {
+        color: var(--sidebar-muted);
+        font-size: 10px;
+      }
+
+      .icon-button,
+      .text-button {
+        display: inline-flex;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #4a4946;
+        border-radius: 0;
+        background: transparent;
+        color: var(--sidebar-ink);
+        cursor: pointer;
+      }
+
+      .icon-button {
+        width: 30px;
+        padding: 0;
+        font-size: 15px;
+      }
+
+      .text-button {
+        gap: 7px;
+        padding: 0 9px;
+        font-size: 10px;
+      }
+
+      .icon-button:hover,
+      .text-button:hover {
+        border-color: #85847e;
+        background: #242424;
+      }
+
+      .menu-button {
+        display: none;
+      }
+
+      .workspace {
+        display: grid;
+        min-height: 0;
+        grid-template-columns: 330px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        display: flex;
+        min-height: 0;
+        flex-direction: column;
+        border-right: 1px solid var(--sidebar-rule);
+        background: var(--sidebar);
+        color: var(--sidebar-ink);
+      }
+
+      .search-wrap {
+        padding: 14px;
+        border-bottom: 1px solid var(--sidebar-rule);
+      }
+
+      .search-box {
+        position: relative;
+      }
+
+      .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        color: var(--sidebar-muted);
+        font-size: 12px;
+        transform: translateY(-50%);
+      }
+
+      .search-input {
+        width: 100%;
+        height: 36px;
+        padding: 0 10px 0 31px;
+        border: 1px solid #454545;
+        border-radius: 0;
+        background: #1d1d1d;
+        color: #ffffff;
+        outline: none;
+      }
+
+      .search-input::placeholder {
+        color: #77766f;
+      }
+
+      .search-input:focus {
+        border-color: #7d7c76;
+      }
+
+      .search-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 9px;
+        color: var(--sidebar-muted);
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .library {
+        min-height: 0;
+        flex: 1;
+        padding: 10px 8px 24px;
+        overflow-y: auto;
+        scrollbar-color: #4a4a4a transparent;
+        scrollbar-width: thin;
+      }
+
+      .section {
+        margin-bottom: 18px;
+      }
+
+      .section[hidden],
+      .doc-link[hidden] {
+        display: none;
+      }
+
+      .section-label {
+        margin: 0 0 5px;
+        padding: 0 7px;
+        color: #76756f;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .doc-link {
+        display: grid;
+        width: 100%;
+        grid-template-columns: 12px minmax(0, 1fr);
+        gap: 7px;
+        align-items: start;
+        padding: 6px 8px;
+        border: 0;
+        background: transparent;
+        color: #c3c2bc;
+        cursor: pointer;
+        font-size: 11px;
+        line-height: 1.35;
+        text-align: left;
+      }
+
+      .doc-link:hover {
+        background: #202020;
+        color: #ffffff;
+      }
+
+      .doc-link[aria-current="page"] {
+        background: var(--sidebar-active);
+        color: #ffffff;
+      }
+
+      .doc-link[aria-current="page"] .doc-glyph {
+        color: #83a7ff;
+      }
+
+      .doc-glyph {
+        color: #66655f;
+        line-height: 1.35;
+      }
+
+      .empty-search {
+        margin: 28px 8px 0;
+        padding: 18px 12px;
+        border: 1px dashed #4b4a46;
+        color: var(--sidebar-muted);
+        text-align: center;
+      }
+
+      .empty-search[hidden] {
+        display: none;
+      }
+
+      .reader-shell {
+        display: grid;
+        min-width: 0;
+        min-height: 0;
+        grid-template-rows: 66px minmax(0, 1fr);
+        background: var(--paper);
+      }
+
+      .document-bar {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 16px;
+        justify-content: space-between;
+        padding: 9px 16px 9px 20px;
+        border-bottom: 1px solid var(--rule);
+        background: var(--surface);
+      }
+
+      .document-heading {
+        min-width: 0;
+      }
+
+      .crumbs {
+        gap: 5px;
+        margin-bottom: 3px;
+        overflow: hidden;
+        color: var(--quiet);
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .crumbs span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .document-title {
+        margin: 0;
+        overflow: hidden;
+        font-size: 14px;
+        font-weight: 560;
+        line-height: 1.35;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .document-actions {
+        flex: 0 0 auto;
+        gap: 10px;
+      }
+
+      .reader-meta {
+        gap: 9px;
+        color: var(--quiet);
+        font-size: 9px;
+        white-space: nowrap;
+      }
+
+      .reader-meta .divider {
+        width: 1px;
+        height: 11px;
+        background: var(--rule);
+      }
+
+      .document-actions .icon-button,
+      .document-actions .text-button {
+        border-color: var(--rule);
+        color: var(--ink);
+      }
+
+      .document-actions .icon-button:hover,
+      .document-actions .text-button:hover {
+        border-color: var(--strong-rule);
+        background: #ecebe6;
+      }
+
+      .document-actions button:disabled {
+        cursor: not-allowed;
+        opacity: 0.35;
+      }
+
+      .reader-stage {
+        min-width: 0;
+        min-height: 0;
+        padding: 10px;
+      }
+
+      .reader-frame {
+        width: 100%;
+        height: 100%;
+        border: 1px solid var(--rule);
+        background: var(--white);
+      }
+
+      .overlay {
+        display: none;
+      }
+
+      @media (max-width: 920px) {
+        .menu-button {
+          display: inline-flex;
+        }
+
+        .topbar-note {
+          display: none;
+        }
+
+        .workspace {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .sidebar {
+          position: fixed;
+          z-index: 40;
+          top: 58px;
+          bottom: 0;
+          left: 0;
+          width: min(88vw, 340px);
+          box-shadow: 16px 0 36px rgb(0 0 0 / 24%);
+          transform: translateX(-104%);
+          transition: transform 180ms ease-out;
+        }
+
+        .sidebar[data-open="true"] {
+          transform: translateX(0);
+        }
+
+        .overlay {
+          position: fixed;
+          z-index: 35;
+          inset: 58px 0 0;
+          display: block;
+          border: 0;
+          background: rgb(0 0 0 / 34%);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 180ms ease-out;
+        }
+
+        .overlay[data-open="true"] {
+          opacity: 1;
+          pointer-events: auto;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .app {
+          grid-template-rows: 54px minmax(0, 1fr);
+        }
+
+        .topbar {
+          padding: 0 10px;
+        }
+
+        .mark,
+        .eyebrow,
+        .copy-label,
+        .reader-meta {
+          display: none;
+        }
+
+        .sidebar,
+        .overlay {
+          top: 54px;
+        }
+
+        .reader-shell {
+          grid-template-rows: 60px minmax(0, 1fr);
+        }
+
+        .document-bar {
+          gap: 8px;
+          padding: 8px 8px 8px 12px;
+        }
+
+        .document-title {
+          font-size: 12px;
+        }
+
+        .document-actions {
+          gap: 4px;
+        }
+
+        .reader-stage {
+          padding: 0;
+        }
+
+        .reader-frame {
+          border-width: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="identity">
+          <button
+            class="icon-button menu-button"
+            id="menu-button"
+            type="button"
+            aria-label="Open document library"
+            aria-expanded="false"
+          >
+            ☰
+          </button>
+          <div class="mark" aria-hidden="true">yR</div>
+          <div class="identity-copy">
+              <p class="eyebrow">unlisted path · source archive</p>
+            <h1>LlamaRisk Handoff</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <span class="topbar-note">51 documents · exported 2026-06-25</span>
+          <button class="text-button" id="copy-link" type="button">
+            <span aria-hidden="true">⌘</span>
+            <span class="copy-label">copy link</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar" id="sidebar" aria-label="Document library">
+          <div class="search-wrap">
+            <label class="search-box">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">
+                Search the handoff archive
+              </span>
+              <input
+                class="search-input"
+                id="search-input"
+                type="search"
+                placeholder="Search all documents"
+                autocomplete="off"
+              />
+            </label>
+            <div class="search-meta">
+              <span id="result-count">51 documents</span>
+              <span>/ to search</span>
+            </div>
+          </div>
+
+          <nav class="library" id="library" aria-label="Handoff documents">
+            {
+              groups.map((group) => (
+                <section class="section" data-section={group.section}>
+                  <h2 class="section-label">{group.section}</h2>
+                  {group.documents.map((document) => {
+                    const index = documents.findIndex((candidate) => candidate.id === document.id);
+                    return (
+                      <button
+                        class="doc-link"
+                        type="button"
+                        data-doc-id={document.id}
+                        data-url={document.url}
+                        data-title={document.title}
+                        data-breadcrumb={document.breadcrumb.join(" / ")}
+                        data-words={document.wordCount}
+                        data-index={index}
+                        data-search={document.searchText}
+                        aria-current={document.id === initialDocument.id ? "page" : undefined}
+                        style={`padding-left:${8 + Math.min(document.breadcrumb.length, 2) * 11}px`}
+                      >
+                        <span class="doc-glyph" aria-hidden="true">
+                          {document.id === initialDocument.id ? "▣" : "□"}
+                        </span>
+                        <span>{document.title}</span>
+                      </button>
+                    );
+                  })}
+                </section>
+              ))
+            }
+            <div class="empty-search" id="empty-search" hidden>
+              No documents match that search.
+            </div>
+          </nav>
+        </aside>
+
+        <button class="overlay" id="overlay" type="button" aria-label="Close document library"></button>
+
+        <main class="reader-shell">
+          <header class="document-bar">
+            <div class="document-heading">
+              <div class="crumbs" id="breadcrumbs">
+                <span>Handoff</span>
+                {
+                  initialDocument.breadcrumb.map((crumb) => (
+                    <>
+                      <span aria-hidden="true">/</span>
+                      <span>{crumb}</span>
+                    </>
+                  ))
+                }
+              </div>
+              <h2 class="document-title" id="document-title">{initialDocument.title}</h2>
+            </div>
+            <div class="document-actions">
+              <div class="reader-meta">
+                <span id="word-count">{initialDocument.wordCount.toLocaleString()} words</span>
+                <span class="divider" aria-hidden="true"></span>
+                <span id="position">{initialIndex + 1} / {documents.length}</span>
+              </div>
+              <button class="icon-button" id="previous-document" type="button" aria-label="Previous document">
+                ←
+              </button>
+              <button class="icon-button" id="next-document" type="button" aria-label="Next document">
+                →
+              </button>
+            </div>
+          </header>
+          <div class="reader-stage">
+            <iframe
+              class="reader-frame"
+              id="reader-frame"
+              name="lr-reader"
+              src={initialDocument.url}
+              title={initialDocument.title}
+              sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+            ></iframe>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script is:inline>
+      const docButtons = Array.from(document.querySelectorAll(".doc-link"));
+      const sections = Array.from(document.querySelectorAll(".section"));
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+      const menuButton = document.getElementById("menu-button");
+      const searchInput = document.getElementById("search-input");
+      const resultCount = document.getElementById("result-count");
+      const emptySearch = document.getElementById("empty-search");
+      const frame = document.getElementById("reader-frame");
+      const documentTitle = document.getElementById("document-title");
+      const breadcrumbs = document.getElementById("breadcrumbs");
+      const wordCount = document.getElementById("word-count");
+      const position = document.getElementById("position");
+      const previousButton = document.getElementById("previous-document");
+      const nextButton = document.getElementById("next-document");
+      const copyButton = document.getElementById("copy-link");
+      let activeIndex = Number(document.querySelector('[aria-current="page"]')?.dataset.index ?? 0);
+
+      const normalizeReference = (value) => {
+        let decoded = value;
+        try {
+          decoded = decodeURIComponent(value);
+        } catch {}
+
+        return decoded
+          .replace(/^.*\//, "")
+          .replace(/\.(md|html)$/i, "")
+          .replaceAll("%2F", "/")
+          .replace(/[\[\]:]/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+          .toLowerCase();
+      };
+
+      const closeSidebar = () => {
+        sidebar.dataset.open = "false";
+        overlay.dataset.open = "false";
+        menuButton.setAttribute("aria-expanded", "false");
+      };
+
+      const openSidebar = () => {
+        sidebar.dataset.open = "true";
+        overlay.dataset.open = "true";
+        menuButton.setAttribute("aria-expanded", "true");
+      };
+
+      const selectDocument = (button, updateHash = true) => {
+        if (!button) return;
+        const nextIndex = Number(button.dataset.index);
+        const title = button.dataset.title;
+        const trail = (button.dataset.breadcrumb || "").split(" / ").filter(Boolean);
+
+        docButtons.forEach((candidate) => {
+          const active = candidate === button;
+          candidate.setAttribute("aria-current", active ? "page" : "false");
+          candidate.querySelector(".doc-glyph").textContent = active ? "▣" : "□";
+        });
+
+        activeIndex = nextIndex;
+        frame.src = button.dataset.url;
+        frame.title = title;
+        documentTitle.textContent = title;
+        breadcrumbs.replaceChildren();
+        ["Handoff", ...trail].forEach((crumb, index) => {
+          if (index > 0) {
+            const separator = document.createElement("span");
+            separator.textContent = "/";
+            separator.setAttribute("aria-hidden", "true");
+            breadcrumbs.append(separator);
+          }
+          const label = document.createElement("span");
+          label.textContent = crumb;
+          breadcrumbs.append(label);
+        });
+        wordCount.textContent = `${Number(button.dataset.words).toLocaleString()} words`;
+        position.textContent = `${activeIndex + 1} / ${docButtons.length}`;
+        previousButton.disabled = activeIndex === 0;
+        nextButton.disabled = activeIndex === docButtons.length - 1;
+        document.title = `${title} · LlamaRisk Handoff`;
+        if (updateHash) history.replaceState(null, "", `#${button.dataset.docId}`);
+        closeSidebar();
+      };
+
+      docButtons.forEach((button) => {
+        button.addEventListener("click", () => selectDocument(button));
+      });
+
+      searchInput.addEventListener("input", () => {
+        const terms = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        let visibleCount = 0;
+
+        docButtons.forEach((button) => {
+          const matches = terms.every((term) => button.dataset.search.includes(term));
+          button.hidden = !matches;
+          if (matches) visibleCount += 1;
+        });
+
+        sections.forEach((section) => {
+          section.hidden = !section.querySelector(".doc-link:not([hidden])");
+        });
+
+        resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? "document" : "documents"}`;
+        emptySearch.hidden = visibleCount !== 0;
+      });
+
+      previousButton.addEventListener("click", () => selectDocument(docButtons[activeIndex - 1]));
+      nextButton.addEventListener("click", () => selectDocument(docButtons[activeIndex + 1]));
+      menuButton.addEventListener("click", () => {
+        sidebar.dataset.open === "true" ? closeSidebar() : openSidebar();
+      });
+      overlay.addEventListener("click", closeSidebar);
+
+      copyButton.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(window.location.href);
+        const label = copyButton.querySelector(".copy-label");
+        const prior = label?.textContent;
+        if (label) label.textContent = "copied";
+        window.setTimeout(() => {
+          if (label) label.textContent = prior;
+        }, 1400);
+      });
+
+      frame.addEventListener("load", () => {
+        const frameDocument = frame.contentDocument;
+        if (!frameDocument) return;
+
+        frameDocument.addEventListener("click", (event) => {
+          const anchor = event.target instanceof Element ? event.target.closest("a") : null;
+          if (!anchor) return;
+          const directDocumentId = anchor.dataset.handoffDocId;
+
+          if (directDocumentId) {
+            const destination = docButtons.find(
+              (button) => button.dataset.docId === directDocumentId,
+            );
+
+            if (destination) {
+              event.preventDefault();
+              selectDocument(destination);
+              return;
+            }
+          }
+
+          const href = anchor.getAttribute("href") || "";
+          const looksInternal =
+            href.startsWith("https://./") ||
+            href.startsWith("./") ||
+            /\.(md|html)(#.*)?$/i.test(href);
+
+          if (looksInternal) {
+            const reference = normalizeReference(href);
+            const label = normalizeReference(anchor.textContent || "");
+            const destination = docButtons.find((button) => {
+              const title = normalizeReference(button.dataset.title);
+              return title === reference || title === label || title.includes(reference) || reference.includes(title);
+            });
+
+            if (destination) {
+              event.preventDefault();
+              selectDocument(destination);
+              return;
+            }
+          }
+
+          if (/^https?:\/\//i.test(anchor.href)) {
+            anchor.target = "_blank";
+            anchor.rel = "noopener noreferrer";
+          }
+        });
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.key === "/" &&
+          document.activeElement !== searchInput &&
+          !["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName)
+        ) {
+          event.preventDefault();
+          if (window.matchMedia("(max-width: 920px)").matches) openSidebar();
+          searchInput.focus();
+        }
+        if (event.key === "Escape") closeSidebar();
+      });
+
+      const initialFromHash = docButtons.find(
+        (button) => button.dataset.docId === window.location.hash.slice(1),
+      );
+      selectDocument(initialFromHash || docButtons[activeIndex], false);
+    </script>
+  </body>
+</html>
