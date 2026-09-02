@@ -290,18 +290,52 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
       }
 
       .section[hidden],
-      .doc-link[hidden] {
+      .doc-link[hidden],
+      .section-documents[hidden] {
         display: none;
       }
 
-      .section-label {
+      .section-heading {
         margin: 0 0 5px;
-        padding: 0 7px;
+      }
+
+      .section-toggle {
+        display: grid;
+        width: 100%;
+        grid-template-columns: 10px minmax(0, 1fr) auto;
+        gap: 5px;
+        align-items: center;
+        padding: 3px 7px;
+        border: 0;
+        background: transparent;
         color: var(--sidebar-muted);
+        cursor: pointer;
         font-size: 9px;
         font-weight: 600;
         letter-spacing: 0.13em;
+        text-align: left;
         text-transform: uppercase;
+      }
+
+      .section-toggle:hover {
+        color: var(--sidebar-ink);
+      }
+
+      .section-chevron {
+        color: #8e959a;
+        font-size: 8px;
+        line-height: 1;
+        transition: transform 120ms ease-out;
+      }
+
+      .section-toggle[aria-expanded="false"] .section-chevron {
+        transform: rotate(-90deg);
+      }
+
+      .section-count {
+        color: #858b90;
+        font-weight: 400;
+        letter-spacing: 0;
       }
 
       .doc-link {
@@ -601,32 +635,46 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
 
           <nav class="library" id="library" aria-label="Handoff documents">
             {
-              groups.map((group) => (
+              groups.map((group, groupIndex) => (
                 <section class="section" data-section={group.section}>
-                  <h2 class="section-label">{group.section}</h2>
-                  {group.documents.map((document) => {
-                    const index = documents.findIndex((candidate) => candidate.id === document.id);
-                    return (
-                      <button
-                        class="doc-link"
-                        type="button"
-                        data-doc-id={document.id}
-                        data-url={document.url}
-                        data-title={document.title}
-                        data-breadcrumb={document.breadcrumb.join(" / ")}
-                        data-words={document.wordCount}
-                        data-index={index}
-                        data-search={document.searchText}
-                        aria-current={document.id === initialDocument.id ? "page" : undefined}
-                        style={`padding-left:${8 + Math.min(document.breadcrumb.length, 2) * 11}px`}
-                      >
-                        <span class="doc-glyph" aria-hidden="true">
-                          {document.id === initialDocument.id ? "▣" : "□"}
-                        </span>
-                        <span>{document.title}</span>
-                      </button>
-                    );
-                  })}
+                  <h2 class="section-heading">
+                    <button
+                      class="section-toggle"
+                      type="button"
+                      data-section-toggle
+                      aria-expanded="true"
+                      aria-controls={`section-documents-${groupIndex}`}
+                    >
+                      <span class="section-chevron" aria-hidden="true">▼</span>
+                      <span>{group.section}</span>
+                      <span class="section-count" aria-hidden="true">{group.documents.length}</span>
+                    </button>
+                  </h2>
+                  <div class="section-documents" id={`section-documents-${groupIndex}`}>
+                    {group.documents.map((document) => {
+                      const index = documents.findIndex((candidate) => candidate.id === document.id);
+                      return (
+                        <button
+                          class="doc-link"
+                          type="button"
+                          data-doc-id={document.id}
+                          data-url={document.url}
+                          data-title={document.title}
+                          data-breadcrumb={document.breadcrumb.join(" / ")}
+                          data-words={document.wordCount}
+                          data-index={index}
+                          data-search={document.searchText}
+                          aria-current={document.id === initialDocument.id ? "page" : undefined}
+                          style={`padding-left:${8 + Math.min(document.breadcrumb.length, 2) * 11}px`}
+                        >
+                          <span class="doc-glyph" aria-hidden="true">
+                            {document.id === initialDocument.id ? "▣" : "□"}
+                          </span>
+                          <span>{document.title}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </section>
               ))
             }
@@ -685,6 +733,7 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
     <script is:inline>
       const docButtons = Array.from(document.querySelectorAll(".doc-link"));
       const sections = Array.from(document.querySelectorAll(".section"));
+      const sectionToggles = Array.from(document.querySelectorAll("[data-section-toggle]"));
       const sidebar = document.getElementById("sidebar");
       const overlay = document.getElementById("overlay");
       const menuButton = document.getElementById("menu-button");
@@ -700,6 +749,14 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
       const nextButton = document.getElementById("next-document");
       const copyButton = document.getElementById("copy-link");
       let activeIndex = Number(document.querySelector('[aria-current="page"]')?.dataset.index ?? 0);
+      let searchActive = false;
+
+      const setSectionOpen = (section, open) => {
+        const toggle = section.querySelector("[data-section-toggle]");
+        const panel = section.querySelector(".section-documents");
+        toggle?.setAttribute("aria-expanded", String(open));
+        if (panel) panel.hidden = !open;
+      };
 
       const normalizeReference = (value) => {
         let decoded = value;
@@ -741,6 +798,9 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
           candidate.querySelector(".doc-glyph").textContent = active ? "▣" : "□";
         });
 
+        const activeSection = button.closest(".section");
+        if (activeSection) setSectionOpen(activeSection, true);
+
         activeIndex = nextIndex;
         frame.src = button.dataset.url;
         frame.title = title;
@@ -770,8 +830,19 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         button.addEventListener("click", () => selectDocument(button));
       });
 
+      sectionToggles.forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+          const section = toggle.closest(".section");
+          if (!section) return;
+          setSectionOpen(section, toggle.getAttribute("aria-expanded") !== "true");
+        });
+      });
+
       searchInput.addEventListener("input", () => {
         const terms = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        const hasTerms = terms.length > 0;
+        const beganSearch = hasTerms && !searchActive;
+        const endedSearch = !hasTerms && searchActive;
         let visibleCount = 0;
 
         docButtons.forEach((button) => {
@@ -781,9 +852,19 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         });
 
         sections.forEach((section) => {
-          section.hidden = !section.querySelector(".doc-link:not([hidden])");
+          const hasMatches = Boolean(section.querySelector(".doc-link:not([hidden])"));
+          section.hidden = !hasMatches;
+
+          if (beganSearch) {
+            const toggle = section.querySelector("[data-section-toggle]");
+            section.dataset.openBeforeSearch = String(toggle?.getAttribute("aria-expanded") === "true");
+          }
+
+          if (hasTerms && hasMatches) setSectionOpen(section, true);
+          if (endedSearch) setSectionOpen(section, section.dataset.openBeforeSearch !== "false");
         });
 
+        searchActive = hasTerms;
         resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? "document" : "documents"}`;
         emptySearch.hidden = visibleCount !== 0;
       });
@@ -871,6 +952,128 @@ const initialIndex = documents.findIndex((document) => document.id === initialDo
         (button) => button.dataset.docId === window.location.hash.slice(1),
       );
       selectDocument(initialFromHash || docButtons[activeIndex], false);
+    </script>
+
+    <script>
+      const readerFrame = document.querySelector<HTMLIFrameElement>("#reader-frame");
+      let mermaidLoader: Promise<(typeof import("mermaid"))["default"]> | undefined;
+      let renderGeneration = 0;
+      let renderSequence = 0;
+
+      const loadMermaid = () => {
+        mermaidLoader ??= import("mermaid").then(({ default: mermaid }) => {
+          mermaid.initialize({
+            startOnLoad: false,
+            securityLevel: "strict",
+            theme: "base",
+            fontFamily: '"SF Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace',
+            flowchart: {
+              htmlLabels: true,
+              useMaxWidth: true,
+            },
+            themeVariables: {
+              background: "#ffffff",
+              primaryColor: "#f3f4f5",
+              primaryTextColor: "#151718",
+              primaryBorderColor: "#8f969b",
+              secondaryColor: "#eef0f1",
+              tertiaryColor: "#ffffff",
+              lineColor: "#596066",
+              edgeLabelBackground: "#ffffff",
+            },
+          });
+          return mermaid;
+        });
+
+        return mermaidLoader;
+      };
+
+      const addDiagramStyles = (frameDocument: Document) => {
+        if (frameDocument.getElementById("yrisk-mermaid-styles")) return;
+
+        const style = frameDocument.createElement("style");
+        style.id = "yrisk-mermaid-styles";
+        style.textContent = `
+          .yrisk-mermaid {
+            width: 100%;
+            margin: 0.75em 0 1.5em;
+            padding: 18px;
+            overflow-x: auto;
+            border: 1px solid #d8dcdf;
+            background: #f8f9fa;
+          }
+
+          .yrisk-mermaid svg {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+            max-width: none !important;
+            margin: 0 auto;
+          }
+
+          .yrisk-mermaid-error::before {
+            display: block;
+            margin-bottom: 8px;
+            color: #8a2f2f;
+            content: "Diagram could not be rendered; Mermaid source follows.";
+            font-family: "SF Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+            font-size: 11px;
+            white-space: normal;
+          }
+        `;
+        frameDocument.head.append(style);
+      };
+
+      const renderFrameDiagrams = async () => {
+        if (!readerFrame) return;
+
+        const generation = ++renderGeneration;
+        const frameDocument = readerFrame.contentDocument;
+        if (!frameDocument) return;
+
+        const blocks = Array.from(
+          frameDocument.querySelectorAll<HTMLElement>(
+            '[data-language="mermaid"], [data-language="mermaidjs"]',
+          ),
+        );
+        if (blocks.length === 0) return;
+
+        addDiagramStyles(frameDocument);
+        const mermaid = await loadMermaid();
+
+        for (const [index, block] of blocks.entries()) {
+          if (generation !== renderGeneration || readerFrame.contentDocument !== frameDocument) return;
+
+          const source = block.querySelector("code")?.textContent?.trim();
+          const staleDiagram = block.nextElementSibling?.matches(".mermaid-diagram-wrapper")
+            ? block.nextElementSibling
+            : null;
+          staleDiagram?.remove();
+          if (!source) continue;
+
+          try {
+            const id = `handoff-mermaid-${generation}-${index}-${renderSequence++}`;
+            const { svg, bindFunctions } = await mermaid.render(id, source);
+            if (generation !== renderGeneration || readerFrame.contentDocument !== frameDocument) return;
+
+            const diagram = frameDocument.createElement("div");
+            diagram.className = "yrisk-mermaid";
+            diagram.innerHTML = svg;
+            const svgElement = diagram.querySelector("svg");
+            svgElement?.setAttribute("aria-label", "Rendered Mermaid diagram");
+            block.replaceWith(diagram);
+            bindFunctions?.(diagram);
+          } catch (error) {
+            block.classList.add("yrisk-mermaid-error");
+            console.error("Unable to render Mermaid diagram", error);
+          }
+        }
+      };
+
+      if (readerFrame) {
+        readerFrame.addEventListener("load", renderFrameDiagrams);
+        if (readerFrame.contentDocument?.readyState === "complete") void renderFrameDiagrams();
+      }
     </script>
   </body>
 </html>
