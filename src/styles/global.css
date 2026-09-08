@@ -362,7 +362,8 @@ main {
 }
 
 .entry .token-logo,
-.report h1 img {
+.report h1 img,
+.report > table:first-of-type img {
   display: inline-block;
   width: 0.9em;
   height: 0.9em;

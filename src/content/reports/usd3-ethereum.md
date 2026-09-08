@@ -13,13 +13,13 @@
 
 | Item | Detail |
 | --- | --- |
-| Asset | 3Jane USD3 (USD3) |
-| Chain | Ethereum ([0x056B…5eCc](https://etherscan.io/address/0x056B269Eb1f75477a8666ae8C7fE01b64dD55eCc))[^addresses] |
+| Asset | ![USD3 logo](../../assets/reports/usd3-ethereum/figures/token-logo.svg) 3Jane USD3 |
+| Chain | Ethereum ([0x056B…5eCc](https://etherscan.io/address/0x056B269Eb1f75477a8666ae8C7fE01b64dD55eCc)) |
 | Review date | 8 September 2026 |
 
 ## Summary
 
-USD3 is a transferable share in a managed credit pool. Most backing depends on offchain lending and collection. At the time of writing:
+USD3 is a transferable share in a managed credit pool. Using it as lending collateral exposes borrowers and lenders to changes in credit value and available exit liquidity. Most backing depends on offchain lending and collection. At the time of writing:
 
 - **Backing concentration:** $80.00 million of accounted assets, with Slope whole loans representing approximately 68.4% of the pool. Accounted loan value does not establish collectibility.
 - **Immediate liquidity:** $12.39 million available for native USDC withdrawals, or 15.5% of accounted assets, subject to Aave and wrapper availability.
@@ -29,7 +29,7 @@ USD3 is a transferable share in a managed credit pool. Most backing depends on o
 
 ## Asset overview
 
-USD3 is an ERC-4626 vault share denominated in USDC. It earns yield through an increasing USDC share value; its symbol does not imply redemption for exactly one dollar. The following figures describe its claim and accounting at the time of writing.[^suppliers]
+USD3 is an ERC-4626 vault share denominated in USDC.[^addresses] It earns yield through an increasing USDC share value; its symbol does not imply redemption for exactly one dollar. The following figures describe its claim and accounting at the time of writing.[^suppliers]
 
 | Item | Observed asset and claim |
 | --- | --- |
@@ -37,7 +37,7 @@ USD3 is an ERC-4626 vault share denominated in USDC. It earns yield through an i
 | USD3 supply | 68.049 million shares |
 | Accounted share value | 1.17561978 USDC per USD3 |
 
-This review assesses ordinary USD3 holders, then prospective use as LlamaLend v2 collateral. It does not assess a configured lending market or sUSD3 as collateral. Deposits enter a pool combining Aave liquidity, crypto credit lines and fintech lending; older descriptions of an entirely Aave-backed bootstrap product do not describe this deployment.[^evolving]
+Deposits enter a pool combining Aave liquidity, crypto credit lines and fintech lending; older descriptions of an entirely Aave-backed bootstrap product do not describe this deployment. These underlying exposures determine the value and recoverability of USD3 pledged as collateral.[^evolving]
 
 ## Issuer and organization
 
@@ -202,7 +202,7 @@ Two May findings were accepted with operational mitigations: stale borrower prem
 
 ## LlamaLend collateral considerations
 
-Delayed credit recognition and limited exit proceeds can impair collateral recovery. This section considers a prospective LlamaLend v2 market borrowing crvUSD. No deployed USD3 market was identified in the current Curve lending API response; we have not asserted factory-wide absence or reviewed an existing controller, LLAMMA or oracle configuration.
+For a prospective LlamaLend v2 market borrowing crvUSD, delayed credit recognition can increase borrowers' liquidation risk when losses reach the valuation, while limited exit proceeds can impair lenders' recovery. No deployed USD3 market was identified in the Curve lending API response checked on 8 September; this does not establish factory-wide absence, and no existing controller, LLAMMA or oracle configuration was assessed.
 
 - **Valuation delay:** A loan impairment can become known offchain before the share price reflects it, followed by a discontinuous price change when recognized. LLAMMA trading does not make fintech receivables settle onchain or replenish exhausted native cash.
 - **Debt-token proceeds:** A collateral lender needs realizable crvUSD when borrowers cannot repay. Native reserves and secondary sell capacity are smaller than reported backing, and even successful USDC redemption can leave insufficient crvUSD proceeds when the settlement pool becomes imbalanced.
