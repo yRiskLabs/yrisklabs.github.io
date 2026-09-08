@@ -4,8 +4,8 @@
   "description": "USD3 is a transferable share in a managed credit pool.",
   "publishedAt": "2026-09-08",
   "tokenLogo": "../../assets/reports/usd3-ethereum/figures/token-logo.svg",
-  "draft": true,
-  "reviewedBy": []
+  "draft": false,
+  "reviewedBy": ["Wavey"]
 }
 ---
 
