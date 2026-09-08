@@ -50,6 +50,12 @@ The site ships no client-side framework or browser JavaScript. Astro generates
 plain HTML, CSS, RSS, and sitemaps. Report front matter is schema-validated;
 layouts and shared metadata remain small Astro components.
 
+The shared layout supplies an explicit Open Graph and Twitter image for all pages
+using it, including reports and research. `public/yrisk-social.png` is an unchanged
+copy of `brand-kit/exports/yrisk-avatar-512.png`; its square, centered mark stays
+legible in small link previews. Keep the 512 × 512 metadata aligned with that asset.
+Preview images are website metadata and are not added to the canonical articles.
+
 The visual system follows the official SF Mono yRisk direction: black, warm
 paper, and quiet rules. The SF Mono font file is not distributed; visitors use
 a locally installed face or the platform monospace fallback.

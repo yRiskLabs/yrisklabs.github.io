@@ -6,7 +6,6 @@ interface Props {
   title?: string;
   description?: string;
   type?: "website" | "article";
-  image?: string | null;
   canonicalPath?: string;
 }
 
@@ -14,13 +13,13 @@ const {
   title = site.name,
   description = site.description,
   type = "website",
-  image = "/og.png",
   canonicalPath,
 } = Astro.props;
 
 const pageTitle = title === site.name ? title : `${title} — ${site.name}`;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
-const socialImage = image ? new URL(image, Astro.site) : null;
+const socialImage = new URL("/yrisk-social.png", Astro.site);
+const socialImageAlt = "yRisk — white yR mark on black";
 const pathname = Astro.url.pathname;
 ---
 
@@ -39,11 +38,16 @@ const pathname = Astro.url.pathname;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content={socialImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {socialImage && <meta property="og:image" content={socialImage} />}
-    {socialImage && <meta name="twitter:image" content={socialImage} />}
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     <title>{pageTitle}</title>
   </head>
   <body>

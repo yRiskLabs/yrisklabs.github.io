@@ -14,7 +14,7 @@ const { kind, title, description, date, metadata = [], decision } = Astro.props;
 const published = date.toISOString().slice(0, 10);
 ---
 
-<BaseLayout title={title} description={description} type="article" image={null}>
+<BaseLayout title={title} description={description} type="article">
   <article class="document">
     <header class="document-header">
       <p class="kicker">{kind} · <time datetime={date.toISOString()}>{published}</time></p>
