@@ -5,7 +5,9 @@
   "publishedAt": "2026-09-08",
   "tokenLogo": "../../assets/reports/usd3-ethereum/figures/token-logo.svg",
   "draft": false,
-  "reviewedBy": ["Wavey"]
+  "reviewedBy": [
+    "Wavey"
+  ]
 }
 ---
 
@@ -132,7 +134,7 @@ The timelocks create notice for their own actions; they do not make offchain und
 
 USD3 redeems to USDC from available unborrowed liquidity. At the time of writing, $12.388 million was available, covering 15.5% of accounted assets. It also depends on Aave and the wrapper continuing to permit withdrawal; total assets in the global wrapper are not all available to USD3.
 
-![Five weekly observations show native cash between about 8.3 and 13.3 million USDC, or 11.1% to 16.6% of pool assets.](../../assets/reports/usd3-ethereum/figures/native-cash-history.svg)
+![Five weekly observations show native cash between about 8.3 and 13.3 million USDC, or 11.1% to 16.6% of pool assets.](../../assets/reports/usd3-ethereum/figures/native-cash-history.png)
 
 *Source: historical Ethereum balances checked at five dates from 11 August to 8 September 2026. These are five snapshots, not continuous minimum liquidity or a withdrawal commitment.*
 
@@ -163,7 +165,7 @@ Native redemption can succeed while the final conversion produces substantially 
 | 10,000,000 | 8,823,676 crvUSD | Not tested |
 | 11,000,000 | Native redemption reverted; inventory preserved | Not tested |
 
-![Fork execution shortfall rises to 64.6% for a five-million-USD3 sale to frxUSD and 24.9% for a ten-million-USD3 redemption followed by crvUSD settlement.](../../assets/reports/usd3-ethereum/figures/exit-depth.svg)
+![Fork execution shortfall rises to 64.6% for a five-million-USD3 sale to frxUSD and 24.9% for a ten-million-USD3 redemption followed by crvUSD settlement.](../../assets/reports/usd3-ethereum/figures/exit-depth.png)
 
 *Source: local execution tests using Ethereum state from 8 September 2026. Shortfall compares output token units with USD3's USDC accounting value, assuming USDC, crvUSD and frxUSD at par. Negative values indicate a premium. Lines connect independent tested sizes; they do not prove intermediate capacity.*
 
