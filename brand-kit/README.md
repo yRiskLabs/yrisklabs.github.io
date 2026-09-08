@@ -8,6 +8,10 @@ Website page backgrounds use warmer ivory (`#F2EFE7`), approved 2026-09-08.
 Existing exported brand assets retain their original colors. Chart canvas and plot
 backgrounds must be transparent (approved 2026-09-08), so the page supplies the
 surface color. Preserve PNG alpha and avoid opaque background fills in SVG.
+Raster charts must have at least 3 pixels per CSS display pixel in each dimension.
+Keep exported pixel dimensions separate from intended display dimensions using
+the generated sidecar, and preserve lossless rendering through image optimization.
+Never enlarge a chart to its 3× source dimensions in the page layout.
 
 The yRisk identity sets `yRisk` in SF Mono Regular with subtly tightened tracking.
 The identity system uses black (`#090909`), warm paper (`#F5F4F0`), and white

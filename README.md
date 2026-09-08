@@ -39,6 +39,14 @@ and scale with the text; no separate logo lookup is needed here.
 The USD3 token mark comes from the [official 3Jane app](https://app.3jane.xyz/tokens/usd3.svg),
 retrieved 8 September 2026, and is used solely to identify the reviewed asset.
 The report route renders the Markdown directly, and shared CSS owns presentation.
+Chart PNGs include a generated `.png.json` sidecar with pixel dimensions, intended
+CSS dimensions and a SHA-256 hash. Synchronization copies both. The chart image
+service preserves the full raster as lossless PNG while emitting the smaller HTML
+width/height; responsive CSS can shrink it further. Do not delete sidecars or
+replace exports with screenshots. `npm run build` rejects missing/stale metadata,
+insufficient resolution and built images lacking explicit display sizes. Before
+publishing, inspect charts at desktop and mobile widths with device scale factors
+2 and 3, checking actual displayed size, sharp labels and transparency.
 
 Asset reports must remain unpublished until human review is complete. Curve
 governance and the eDAO retain approval, signing, deployment, and execution
