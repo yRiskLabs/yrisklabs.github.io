@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build"
+    "build": "astro sync --force && astro check && astro build"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",

@@ -191,6 +191,13 @@ main {
   border-top: 1px solid var(--strong-rule);
 }
 
+.empty-state {
+  margin: 0;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--secondary);
+}
+
 .entry {
   display: grid;
   grid-template-columns: 15ch minmax(0, 1fr);

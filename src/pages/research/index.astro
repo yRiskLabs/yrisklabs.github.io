@@ -10,6 +10,7 @@ const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll("-
 
 <BaseLayout title="Research" description="Notes from yRisk on markets, monitoring, and governance.">
   <div class="entry-list">
+    {research.length === 0 && <p class="empty-state">Research coming soon.</p>}
     {research.map((post) => (
       <article class="entry">
         <div class="entry-meta">
