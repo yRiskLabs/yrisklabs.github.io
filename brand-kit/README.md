@@ -4,6 +4,9 @@
 
 Surface and chart styling refinements approved 2026-09-07.
 
+Website page backgrounds use warmer ivory (`#F2EFE7`), approved 2026-09-08.
+Existing exported brand assets and chart backgrounds retain their original colors.
+
 The yRisk identity sets `yRisk` in SF Mono Regular with subtly tightened tracking.
 The identity system uses black (`#090909`), warm paper (`#F5F4F0`), and white
 (`#FFFFFF`). Yearn blue (`#0657F9`) is the single accent color. Use it sparingly
