@@ -1,0 +1,72 @@
+@font-face {
+  font-family: "Newsreader yRisk";
+  src: url("../fonts/Newsreader72pt-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --yrisk-ink: #090909;
+  --yrisk-paper: #f5f4f0;
+  --yrisk-white: #ffffff;
+  --yrisk-accent: #0657f9;
+
+  /* Supporting tones on paper/white; check contrast on the actual surface. */
+  --yrisk-ink-secondary: rgb(9 9 9 / 65%);
+  --yrisk-rule-color: rgb(9 9 9 / 16%);
+  --yrisk-surface-subtle: rgb(9 9 9 / 3.5%);
+
+  --yrisk-font-mono: "SF Mono", "SFMono-Regular", ui-monospace, monospace;
+  --yrisk-font-editorial: "Newsreader yRisk", Newsreader, Georgia, serif;
+  --yrisk-font-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --yrisk-space-1: 4px;
+  --yrisk-space-2: 8px;
+  --yrisk-space-3: 16px;
+  --yrisk-space-4: 24px;
+  --yrisk-space-5: 40px;
+  --yrisk-space-6: 64px;
+  --yrisk-space-7: 96px;
+
+  --yrisk-rule-width: 1px;
+  --yrisk-radius: 0;
+  /* Controls and elevated interface surfaces only; editorial charts stay flat. */
+  --yrisk-radius-control: 4px;
+  --yrisk-shadow-raised: 0 2px 8px rgb(9 9 9 / 8%), 0 1px 2px rgb(9 9 9 / 4%);
+}
+
+.yrisk-display {
+  font-family: var(--yrisk-font-editorial);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.yrisk-metadata {
+  font-family: var(--yrisk-font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.yrisk-data {
+  font-family: var(--yrisk-font-ui);
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+.yrisk-rule {
+  border: 0;
+  border-top: var(--yrisk-rule-width) solid currentColor;
+}
+
+.yrisk-dark-surface {
+  color: var(--yrisk-white);
+  background: var(--yrisk-ink);
+}
+
+.yrisk-paper-surface {
+  color: var(--yrisk-ink);
+  background: var(--yrisk-paper);
+}

@@ -2,21 +2,21 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+const research = (await getCollection("research", ({ data }) => !data.draft)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
 const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll("-", ".");
 ---
 
-<BaseLayout title="Posts" description="Notes from yRisk on markets, monitoring, and governance.">
+<BaseLayout title="Research" description="Notes from yRisk on markets, monitoring, and governance.">
   <div class="entry-list">
-    {posts.map((post) => (
+    {research.map((post) => (
       <article class="entry">
         <div class="entry-meta">
           <time datetime={post.data.publishedAt.toISOString()}>{formatDate(post.data.publishedAt)}</time>
         </div>
         <div>
-          <h2><a href={`/posts/${post.id}/`}>{post.data.title}</a></h2>
+          <h2><a href={`/research/${post.id}/`}>{post.data.title}</a></h2>
           <p>{post.data.topics.join(" / ")}</p>
         </div>
       </article>

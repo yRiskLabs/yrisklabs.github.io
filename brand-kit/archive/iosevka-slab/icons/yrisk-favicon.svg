@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">yRisk favicon</title>
+  <desc id="desc">A lowercase y in black angular slab monospace type on warm white.</desc>
+  <rect width="64" height="64" rx="2" fill="#F5F4F0"/>
+  <g fill="#090909" transform="translate(18.5 46) scale(0.045 -0.045)">
+    <path d="M99 -215V-141H148Q163 -141 177 -138Q191 -135 201.5 -125Q212 -115 217.5 -102Q223 -89 228 -76V-75H229L257 6L102 447H39V520H234V447H187L300 103L413 446H366V520H561V447H498L307 -99Q301 -116 294 -132.5Q287 -149 276 -163.5Q265 -178 250.5 -189Q236 -200 219 -206Q202 -212 184 -213.5Q166 -215 148 -215Z"/>
+  </g>
+</svg>

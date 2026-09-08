@@ -3,8 +3,8 @@ import { getCollection, render } from "astro:content";
 import DocumentLayout from "../../layouts/DocumentLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
-  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+  const research = await getCollection("research", ({ data }) => !data.draft);
+  return research.map((post) => ({ params: { id: post.id }, props: { post } }));
 }
 
 const { post } = Astro.props;
@@ -13,7 +13,7 @@ const metadata = [{ label: "topics", value: post.data.topics.join(" / ") }];
 ---
 
 <DocumentLayout
-  kind="post"
+  kind="research"
   title={post.data.title}
   description={post.data.description}
   date={post.data.publishedAt}

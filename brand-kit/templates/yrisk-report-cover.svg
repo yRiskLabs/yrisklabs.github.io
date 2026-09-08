@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600" role="img" aria-labelledby="title desc">
+  <title id="title">yRisk editorial report-cover example</title>
+  <desc id="desc">A warm-paper report cover with a yRisk masthead, editorial title, thin rules, and black status panel.</desc>
+  <style>
+    @font-face {
+      font-family: "Newsreader yRisk";
+      src: url("../fonts/Newsreader72pt-Regular.ttf") format("truetype");
+      font-style: normal;
+      font-weight: 400;
+    }
+    .editorial {
+      font-family: "Newsreader yRisk", Newsreader, Georgia, serif;
+      font-weight: 400;
+    }
+    .mono {
+      font-family: "SF Mono", "SFMono-Regular", ui-monospace, monospace;
+      font-variant-numeric: tabular-nums slashed-zero;
+    }
+  </style>
+
+  <rect width="1200" height="1600" fill="#F5F4F0"/>
+
+  <g fill="#090909" transform="translate(72 132) scale(0.03125 -0.03125)">
+    <path d="M329 -386C530 -386 621 -307 716 -40L1125 1085H944L641 177H628L324 1085H139L538 -7L519 -66C474 -192 418 -238 316 -238C300 -238 269 -237 256 -234V-383C271 -385 304 -386 329 -386Z"/>
+    <path transform="translate(1238)" d="M356 1286H650C843 1286 953 1184 953 1005C953 825 841 724 642 724H356ZM688 575L957 0H1156L862 611C1026 665 1131 820 1131 1009C1131 1277 952 1443 666 1443H182V0H356V575Z"/>
+    <path transform="translate(2476)" d="M652 1351C732 1351 793 1411 793 1491C793 1570 732 1630 652 1630C572 1630 511 1570 511 1491C511 1411 572 1351 652 1351ZM1107 0V141H748V1085H211V944H580V141H208V0Z"/>
+    <path transform="translate(3714)" d="M238 792C238 638 335 539 531 494L692 457C830 426 883 380 883 294C883 190 789 123 641 123C501 123 405 181 380 281H207C226 95 389 -20 635 -20C892 -20 1059 110 1059 310C1059 467 963 559 752 607L599 642C463 672 407 719 407 802C407 901 496 965 634 965C761 965 852 907 872 812H1036C1016 993 863 1106 637 1106C398 1106 238 980 238 792Z"/>
+    <path transform="translate(4952)" d="M1161 0L710 656L1131 1085H925L452 598H439V1511H269V0H439V395L588 539L959 0Z"/>
+  </g>
+
+  <text class="mono" x="1128" y="100" fill="#090909" font-size="20" text-anchor="end" letter-spacing="1.2">INTERNAL TEMPLATE</text>
+  <path d="M72 188H1128" fill="none" stroke="#090909" stroke-width="1"/>
+
+  <text class="mono" x="72" y="282" fill="#090909" font-size="21" letter-spacing="1.2">REVIEW / CHAIN / PROTOCOL VERSION</text>
+  <text class="editorial" x="66" y="492" fill="#090909" font-size="132" letter-spacing="-2">Market review</text>
+  <text class="editorial" x="72" y="570" fill="#090909" font-size="42">Decision, evidence, and binding constraints</text>
+
+  <path d="M72 1088H1128" fill="none" stroke="#090909" stroke-width="1"/>
+  <text class="mono" x="72" y="1148" fill="#090909" font-size="20" letter-spacing="1.2">EDITORIAL PRINCIPLE</text>
+  <text class="editorial" x="72" y="1232" fill="#090909" font-size="52">Decision first. Evidence beneath it.</text>
+
+  <rect y="1300" width="1200" height="300" fill="#090909"/>
+  <text class="mono" x="72" y="1364" fill="#FFFFFF" font-size="20" letter-spacing="1.2">STATUS</text>
+  <text class="editorial" x="72" y="1460" fill="#FFFFFF" font-size="72">Human review required</text>
+  <text class="mono" x="72" y="1532" fill="#FFFFFF" font-size="18" letter-spacing="0.6">AUTOMATION MAY ANALYZE AND DRAFT. GOVERNANCE RETAINS APPROVAL AND EXECUTION.</text>
+</svg>

@@ -1,7 +1,7 @@
 # yrisklabs.com
 
 The standalone yRisk public site: an about page, human-approved asset reports,
-and posts. Built with Astro and deployed as static HTML through GitHub Pages.
+and research. Built with Astro and deployed as static HTML through GitHub Pages.
 
 ## Local development
 
@@ -22,8 +22,23 @@ uses Actions, serves `yrisklabs.com`, and enforces HTTPS.
 
 ## Content
 
-- Copy `src/content/reports/_template.md` when adding an approved report.
-- Add posts to `src/content/posts/`.
+- Author complete reports in the sibling `asset-reviews` repository, including the
+  title, date and header table. Run its `tools/share_report.py REVIEW --target website`
+  to copy an explicitly selected report here. The default target shares a gist only.
+- Add research to `src/content/research/`.
+- Draft reports appear in local development only; production builds exclude them.
+  Keep `draft: true` and `reviewedBy: []` until human review is complete.
+
+Report files are generated copies: edit the canonical Markdown, then synchronize.
+Only image paths and JSON front matter differ. The front matter (valid YAML) holds
+search/listing metadata and publication controls; it does not generate article
+content. Existing publication controls and publication dates survive synchronization.
+The importer derives the plain search title and optional listing logo from the
+canonical `Asset Review: [logo] Protocol Token` heading. Title logos stay inline
+and scale with the text; no separate logo lookup is needed here.
+The USD3 token mark comes from the [official 3Jane app](https://app.3jane.xyz/tokens/usd3.svg),
+retrieved 8 September 2026, and is used solely to identify the reviewed asset.
+The report route renders the Markdown directly, and shared CSS owns presentation.
 
 Asset reports must remain unpublished until human review is complete. Curve
 governance and the eDAO retain approval, signing, deployment, and execution
@@ -38,3 +53,11 @@ layouts and shared metadata remain small Astro components.
 The visual system follows the official SF Mono yRisk direction: black, warm
 paper, and quiet rules. The SF Mono font file is not distributed; visitors use
 a locally installed face or the platform monospace fallback.
+
+## Workspace and reference material
+
+This remains an independent repository inside the local yRisk workspace. The
+canonical [brand kit](brand-kit/README.md) is maintained here. The `/lr-handoff/`
+reader uses `src/data/lr-handoff-documents.json` and the documents and attachments
+in `public/lr-handoff/`; the obsolete standalone handover app has been removed.
+Keep LlamaRisk's source attribution and licensing terms with that archive.

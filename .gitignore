@@ -1,4 +1,16 @@
 dist/
 .astro/
 node_modules/
+
+# Local configuration and generated files
 .DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+.tmp/

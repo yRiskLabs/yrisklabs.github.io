@@ -6,11 +6,11 @@ interface Props {
   title: string;
   description: string;
   date: Date;
-  metadata: Array<{ label: string; value: string }>;
+  metadata?: Array<{ label: string; value: string }>;
   decision?: string;
 }
 
-const { kind, title, description, date, metadata, decision } = Astro.props;
+const { kind, title, description, date, metadata = [], decision } = Astro.props;
 const published = date.toISOString().slice(0, 10);
 ---
 
@@ -21,14 +21,14 @@ const published = date.toISOString().slice(0, 10);
       <h1>{title}</h1>
       <p class="lede">{description}</p>
       {decision && <p class="decision">{decision}</p>}
-      <dl class="metadata">
+      {metadata.length > 0 && <dl class="metadata">
         {metadata.map((item) => (
           <div>
             <dt>{item.label}</dt>
             <dd>{item.value}</dd>
           </div>
         ))}
-      </dl>
+      </dl>}
     </header>
     <div class="prose">
       <slot />

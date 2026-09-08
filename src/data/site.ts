@@ -8,5 +8,5 @@ export const site = {
 export const navigation = [
   { label: "about", href: "/" },
   { label: "reports", href: "/reports/" },
-  { label: "posts", href: "/posts/" },
+  { label: "research", href: "/research/" },
 ] as const;

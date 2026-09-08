@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">yRisk avatar</title>
+  <desc id="desc">The letters yR in white SF Mono type on black.</desc>
+  <rect width="512" height="512" fill="#090909"/>
+  <g fill="#FFFFFF" transform="translate(107.59 318) scale(0.1171875 -0.1171875)">
+    <path d="M329 -386C530 -386 621 -307 716 -40L1125 1085H944L641 177H628L324 1085H139L538 -7L519 -66C474 -192 418 -238 316 -238C300 -238 269 -237 256 -234V-383C271 -385 304 -386 329 -386Z"/>
+    <path transform="translate(1238)" d="M356 1286H650C843 1286 953 1184 953 1005C953 825 841 724 642 724H356ZM688 575L957 0H1156L862 611C1026 665 1131 820 1131 1009C1131 1277 952 1443 666 1443H182V0H356V575Z"/>
+  </g>
+</svg>

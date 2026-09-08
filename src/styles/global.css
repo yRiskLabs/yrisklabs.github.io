@@ -7,7 +7,7 @@
   --strong-rule: #aaa89f;
   --accent: #0657f9;
   --mono: "SF Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
-  --width: 72ch;
+  --width: 109ch;
   --gutter: clamp(18px, 4vw, 42px);
 }
 
@@ -223,7 +223,7 @@ main {
 }
 
 .document {
-  max-width: 68ch;
+  width: 100%;
 }
 
 .document-header {
@@ -238,8 +238,7 @@ main {
 }
 
 .document h1 {
-  max-width: 32ch;
-  margin-bottom: 10px;
+  margin-bottom: 24px;
   font-size: clamp(23px, 4vw, 30px);
   letter-spacing: -0.04em;
 }
@@ -284,6 +283,14 @@ main {
 
 .prose {
   padding-top: 28px;
+}
+
+.report {
+  padding-top: 0;
+}
+
+.report > table:first-of-type {
+  display: table;
 }
 
 .prose h2 {
@@ -341,9 +348,26 @@ main {
 }
 
 .prose table {
+  display: block;
+  overflow-x: auto;
   width: 100%;
   border-collapse: collapse;
   font-size: 11px;
+}
+
+.prose img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.entry .token-logo,
+.report h1 img {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  object-fit: contain;
+  vertical-align: -0.08em;
 }
 
 .prose th,
@@ -354,12 +378,22 @@ main {
   vertical-align: top;
 }
 
-.report-boundary {
-  margin-top: 42px;
-  padding-top: 12px;
-  border-top: 1px solid var(--strong-rule);
-  color: var(--quiet);
-  font-size: 10px;
+.prose .footnotes {
+  margin-top: 3em;
+  padding-top: 1.5em;
+  border-top: 1px solid var(--rule);
+  color: var(--secondary);
+  font-size: 0.875em;
+  line-height: 1.55;
+}
+
+.prose .footnotes h2 {
+  margin-top: 0;
+  font-size: 1.15em;
+}
+
+.prose .footnotes p {
+  margin-bottom: 0.75em;
 }
 
 .not-found h1 {
