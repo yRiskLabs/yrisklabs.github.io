@@ -386,6 +386,10 @@ main {
   vertical-align: top;
 }
 
+.prose sup + sup > a[data-footnote-ref] {
+  margin-inline-start: 0.2em;
+}
+
 .prose .footnotes {
   margin-top: 3em;
   padding-top: 1.5em;
